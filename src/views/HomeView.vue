@@ -7,7 +7,11 @@ const Following = defineAsyncComponent(() => import('@/components/FollowingCompo
 
 const currentTab = ref('New')
 
-const tabs = {
+interface TabsObject {
+  readonly [index: string]: unknown
+}
+
+const tabs: TabsObject = {
   New,
   Following,
 }
@@ -22,7 +26,7 @@ const tabs = {
         class="flex-none hover:bg-gray-500 content-center relative transition-all"
         v-for="(_, tab) in tabs"
         :key="tab"
-        @click="currentTab = tab"
+        @click="currentTab = String(tab)"
       >
         <span>{{ tab }}</span>
         <span v-if="currentTab === tab" class="absolute inset-19 bottom-0 block bg-green-600" />

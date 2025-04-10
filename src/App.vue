@@ -11,6 +11,7 @@ import HomeImage from './components/SVGs/HomeImage.vue'
     class="md:w-32 md:min-w-32 flex-1 flex flex-col justify-items-stretch md:text-end not-md:flex-row not-md:text-center not-md:w-auto not-md:flex-none text-lg"
   >
     <RouterLink
+      v-if="$route.path !== '/signin'"
       to="/"
       class="content-center h-12 not-md:flex-1 flex items-center not-md:justify-center"
     >
@@ -18,6 +19,7 @@ import HomeImage from './components/SVGs/HomeImage.vue'
       <span class="align-middle pl-2">Home</span>
     </RouterLink>
     <RouterLink
+      v-if="$route.path !== '/signin'"
       to="/search"
       class="content-center h-12 not-md:flex-1 flex items-center not-md:justify-center"
     >

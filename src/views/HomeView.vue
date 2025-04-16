@@ -2,8 +2,8 @@
 import { defineAsyncComponent } from 'vue'
 import TabControl from '@/components/TabControl.vue'
 
-const New = defineAsyncComponent(() => import('@/components/NewXitsComponent.vue'))
-const Following = defineAsyncComponent(() => import('@/components/FollowingComponent.vue'))
+const New = defineAsyncComponent(() => import('@/components/Home/NewXitsComponent.vue'))
+const Following = defineAsyncComponent(() => import('@/components/Home/FollowingComponent.vue'))
 
 const tabs = {
   New,

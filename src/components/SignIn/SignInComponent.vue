@@ -1,6 +1,13 @@
+<script setup lang="ts">
+function signIn(event: Event) {
+  event.preventDefault()
+  alert('AAAAAA')
+}
+</script>
+
 <template>
   <div class="flex justify-center">
-    <form class="flex flex-col w-[75%] gap-2 p-4">
+    <form class="flex flex-col w-[75%] gap-2 p-4" @submit="signIn">
       <h1>Sign In</h1>
       <input name="email" type="text" placeholder="Email" required class="rounded-full p-2" />
       <input
@@ -10,16 +17,10 @@
         required
         class="rounded-full p-2"
       />
-      <input type="submit" value="Sign In" class="rounded-full p-2" onsubmit="signIn" />
+      <input type="submit" value="Sign In" class="rounded-full p-2" onsubmit="" />
     </form>
   </div>
 </template>
-
-<script lang="ts">
-function signIn(event: SubmitEvent) {
-  event.preventDefault()
-}
-</script>
 
 <style scoped>
 input {

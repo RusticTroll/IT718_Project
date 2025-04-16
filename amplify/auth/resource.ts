@@ -14,10 +14,6 @@ export const auth = defineAuth({
       mutable: true,
       minLen: 4,
       maxLen: 20,
-    },
-    birthdate: {
-      mutable: false,
-      required: true,
-    },
+    }
   },
 })

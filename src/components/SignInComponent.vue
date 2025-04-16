@@ -10,10 +10,16 @@
         required
         class="rounded-full p-2"
       />
-      <input type="submit" value="Sign In" class="rounded-full p-2" />
+      <input type="submit" value="Sign In" class="rounded-full p-2" onsubmit="signIn" />
     </form>
   </div>
 </template>
+
+<script lang="ts">
+function signIn(event: SubmitEvent) {
+  event.preventDefault()
+}
+</script>
 
 <style scoped>
 input {

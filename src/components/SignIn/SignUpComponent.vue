@@ -1,13 +1,10 @@
 <script setup lang="ts">
 import { ref, useTemplateRef } from 'vue'
-import { signUp } from 'aws-amplify/auth'
+import { signUp, confirmSignUp, autoSignIn } from 'aws-amplify/auth'
 import ToastComponent from '../ToastComponent.vue'
-import ConfirmSignUpComponent from './ConfirmSignUpComponent.vue'
 
 const errorMessage = ref('')
 const confirmed_email = ref('')
-
-const toast = useTemplateRef('confirm_toast')
 
 async function handleSignUp(event: Event) {
   event.preventDefault()
@@ -31,7 +28,7 @@ async function handleSignUp(event: Event) {
       options: {
         userAttributes: {
           email: email,
-          'custom:display_name': (<HTMLInputElement>form.elements.namedItem('username')).value,
+          preferred_username: (<HTMLInputElement>form.elements.namedItem('username')).value,
         },
       },
     })
@@ -43,6 +40,7 @@ async function handleSignUp(event: Event) {
     confirmed_email.value = email
 
     toast.value?.toggle_shown()
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     errorMessage.value = error.message
   }
@@ -74,6 +72,23 @@ function validateInputs(
 
   errorMessage.value = ''
   return true
+}
+
+const toast = useTemplateRef('confirm_toast')
+const code = ref('')
+
+async function confirm_signup() {
+  const { isSignUpComplete, nextStep } = await confirmSignUp({
+    username: confirmed_email.value,
+    confirmationCode: code.value,
+  })
+
+  console.log('Complete?: %s', isSignUpComplete.toString())
+  console.log('Next Step: %s', nextStep.signUpStep)
+
+  await autoSignIn()
+
+  window.location.replace('/profile')
 }
 </script>
 
@@ -111,7 +126,11 @@ function validateInputs(
   <ToastComponent ref="confirm_toast">
     <template v-slot:title>Confirm Sign Up</template>
     <template v-slot:content>
-      <ConfirmSignUpComponent :email="confirmed_email" />
+      <p>
+        An code has been sent to <i>{{ confirmed_email }}.</i> You know what to do.
+      </p>
+      <input name="code" type="text" placeholder="Verification Code" v-model="code" />
+      <button @click="confirm_signup">Confirm</button>
     </template>
   </ToastComponent>
 </template>

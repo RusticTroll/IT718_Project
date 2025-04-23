@@ -163,10 +163,6 @@ async function setup_totp() {
 </template>
 
 <style scoped>
-input {
-  border: 1px gray solid;
-}
-
 form h1 {
   font-weight: bold;
   font-size: 20pt;

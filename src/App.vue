@@ -6,30 +6,30 @@ import HomeImage from './components/SVGs/HomeImage.vue'
 
 <template>
   <nav
-    class="lg:w-32 lg:min-w-32 flex-1 flex flex-col justify-items-stretch lg:text-end not-lg:flex-row not-lg:text-center not-lg:w-auto not-lg:flex-none text-lg"
+    class="lg:w-32 lg:min-w-32 flex-1 flex flex-col justify-items-stretch lg:text-end not-lg:flex-row not-lg:text-center not-lg:w-auto not-lg:flex-none lg:text-2xl text-lg"
   >
     <RouterLink
       v-if="$route.meta.requires_auth"
       to="/"
-      class="content-center h-12 not-lg:flex-1 flex items-center not-lg:justify-center"
+      class="content-center h-24 not-lg:flex-1 flex items-center not-lg:justify-center"
     >
-      <HomeImage :size="48" stroke="hsla(160, 100%, 37%, 1)" />
+      <HomeImage :size="'4rem'" stroke="hsla(160, 100%, 37%, 1)" />
       <span class="align-middle pl-2">Home</span>
     </RouterLink>
     <RouterLink
       v-if="$route.meta.requires_auth"
       to="/search"
-      class="content-center h-12 not-lg:flex-1 flex items-center not-lg:justify-center"
+      class="content-center h-24 not-lg:flex-1 flex items-center not-lg:justify-center"
     >
-      <MagnifyingGlass :size="48" stroke="hsla(160, 100%, 37%, 1)" />
+      <MagnifyingGlass :size="'4rem'" stroke="hsla(160, 100%, 37%, 1)" />
       <span class="align-middle pl-2">Search</span>
     </RouterLink>
     <RouterLink
       v-if="$route.meta.requires_auth"
       to="/profile"
-      class="content-center h-12 not-lg:flex-1 flex items-center not-lg:justify-center"
+      class="content-center h-24 not-lg:flex-1 flex items-center not-lg:justify-center"
     >
-      <MagnifyingGlass :size="48" stroke="hsla(160, 100%, 37%, 1)" />
+      <MagnifyingGlass :size="'4rem'" stroke="hsla(160, 100%, 37%, 1)" />
       <span class="align-middle pl-2">Profile</span>
     </RouterLink>
   </nav>

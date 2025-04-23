@@ -25,3 +25,9 @@ button {
   border-radius: 0.5rem;
   padding: 0.25rem;
 }
+
+input {
+  border-radius: calc(infinity * 1px);
+  padding: calc(var(--spacing) * 2);
+  border: 1px gray solid;
+}

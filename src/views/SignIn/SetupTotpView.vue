@@ -23,18 +23,26 @@ async function verify_totp() {
 </script>
 
 <template>
-  <h1>Set Up TOTP</h1>
-  <p>Add the following TOTP to your authenticator app and type in the resulting code.</p>
-  <StyledQRCode
-    v-bind="{
-      data: setup_uri,
-      width: 200,
-      height: 200,
-      qrOptions: { errorCorrectionLevel: 'L' },
-      backgroundOptions: { color: '#FFFFFF' },
-    }"
-  />
-  <input name="code" type="text" placeholder="TOTP Code" v-model="totp_code" />
-  <button @click="verify_totp">Verify</button>
-  <p class="text-red-500">{{ error_message }}</p>
+  <div class="flex flex-col items-center">
+    <h1>Set Up TOTP</h1>
+    <p>Add the following TOTP to your authenticator app and type in the resulting code.</p>
+    <StyledQRCode
+      v-bind="{
+        data: setup_uri,
+        width: 200,
+        height: 200,
+        qrOptions: { errorCorrectionLevel: 'L' },
+        backgroundOptions: { color: '#FFFFFF' },
+      }"
+    />
+    <input name="code" type="text" placeholder="TOTP Code" v-model="totp_code" />
+    <button @click="verify_totp">Verify</button>
+    <p class="text-red-500">{{ error_message }}</p>
+  </div>
 </template>
+
+<style scoped>
+.flex * {
+  margin: 0.25rem;
+}
+</style>

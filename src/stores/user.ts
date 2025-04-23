@@ -18,9 +18,17 @@ export const useUserStore = defineStore('user', () => {
 
   async function update_user() {
     user_auth_session.value = await fetchAuthSession()
+    console.log(user.value)
+    console.log(user_attributes.value)
+    console.log(user_auth_session.value)
     if (logged_in.value) {
-      user.value = await getCurrentUser()
-      user_attributes.value = await fetchUserAttributes()
+      if (user.value === undefined) {
+        console.log('Retreiving user data!')
+        user.value = await getCurrentUser()
+        user_attributes.value = await fetchUserAttributes()
+      } else {
+        console.log('Using cached user data!')
+      }
     } else {
       user.value = undefined
       user_attributes.value = undefined

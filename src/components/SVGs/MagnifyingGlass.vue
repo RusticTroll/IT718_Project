@@ -1,7 +1,7 @@
 <script setup lang="ts">
 defineProps({
   size: {
-    type: Number,
+    type: String,
     required: true,
   },
   stroke: {

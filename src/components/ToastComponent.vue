@@ -34,7 +34,7 @@ defineExpose({ toggle_shown })
             </svg>
           </button>
         </div>
-        <div id="content-wrapper" class="place-self-stretch flex-grow">
+        <div id="content-wrapper" class="place-self-stretch flex-grow flex flex-row">
           <slot name="content" />
         </div>
       </div>

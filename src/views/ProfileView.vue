@@ -8,5 +8,5 @@ const userAttributes = await fetchUserAttributes()
 </script>
 
 <template>
-  <h1>Hi, {{ userAttributes.preferred_username }}! ({{ user.userId }})</h1>
+  <h1>Hi, {{ userAttributes.preferred_username }}! ({{ user!.userId }})</h1>
 </template>

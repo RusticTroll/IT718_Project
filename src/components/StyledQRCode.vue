@@ -1,3 +1,5 @@
+<!-- #region -->
+
 <!-- Lovingly borrowed from https://github.com/lyqht/mini-qr under the GPL-3 license -->
 <!--
                     GNU GENERAL PUBLIC LICENSE
@@ -676,12 +678,14 @@ Public License instead of this License.  But first, please read
 <https://www.gnu.org/licenses/why-not-lgpl.html>.
 -->
 
+<!-- #endregion -->
+
 <script setup lang="ts">
 import type {
   CornerDotType,
   CornerSquareType,
   DrawType,
-  Options as StyledQRCodeProps
+  Options as StyledQRCodeProps,
 } from 'qr-code-styling'
 import QRCodeStyling from 'qr-code-styling'
 import { onMounted, ref, watch } from 'vue'
@@ -695,33 +699,33 @@ const props = withDefaults(defineProps<StyledQRCodeProps>(), {
   margin: 0,
   dotsOptions: () => ({
     color: 'black',
-    type: 'rounded'
+    type: 'rounded',
   }),
 
   // this is set to transparent by default so that we rely on the container's background
   backgroundOptions: () => ({
-    color: 'transparent'
+    color: 'transparent',
   }),
   imageOptions: () => ({
     margin: 0,
-    crossOrigin: 'anonymous'
+    crossOrigin: 'anonymous',
   }),
   cornersSquareOptions: () => ({
     color: 'black',
-    type: 'extra-rounded' as CornerSquareType
+    type: 'extra-rounded' as CornerSquareType,
   }),
   cornersDotOptions: () => ({
     color: 'black',
-    type: 'dot' as CornerDotType
+    type: 'dot' as CornerDotType,
   }),
   qrOptions: () => ({
-    errorCorrectionLevel: 'Q'
-  })
+    errorCorrectionLevel: 'Q',
+  }),
 })
 
 const QRCodeCanvasContainer = new QRCodeStyling({
   ...props,
-  image: props.image === null ? undefined : props.image
+  image: props.image === null ? undefined : props.image,
 })
 const qrCodeContainer = ref<HTMLElement>()
 
@@ -734,10 +738,10 @@ watch(
   () => {
     QRCodeCanvasContainer.update({
       ...props,
-      image: props.image === null ? undefined : props.image
+      image: props.image === null ? undefined : props.image,
     })
   },
-  { deep: true, immediate: true }
+  { deep: true, immediate: true },
 )
 </script>
 

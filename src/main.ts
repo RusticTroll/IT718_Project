@@ -9,7 +9,7 @@ import App from './App.vue'
 import router from './router'
 
 import awsconfig from '../amplify_outputs.json'
-import { Amplify } from 'aws-amplify';
+import { Amplify } from 'aws-amplify'
 Amplify.configure(awsconfig)
 
 const app = createApp(App)

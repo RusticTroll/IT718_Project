@@ -22,12 +22,6 @@ const current_tab = ref(props.initial_tab)
       </h1>
     </nav>
 
-    <Transition mode="out-in">
-      <KeepAlive>
-        <Suspense>
-          <component class="flex-grow" :is="tabs[current_tab]" />
-        </Suspense>
-      </KeepAlive>
-    </Transition>
+    <component class="flex-grow" :is="tabs[current_tab]" />
   </main>
 </template>

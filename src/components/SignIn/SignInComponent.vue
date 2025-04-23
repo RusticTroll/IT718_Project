@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { signIn } from 'aws-amplify/auth'
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 const email = ref('')
 const password = ref('')
@@ -8,12 +11,16 @@ const password = ref('')
 async function handleSignIn(event: Event) {
   event.preventDefault()
 
-  await signIn({
+  const { nextStep } = await signIn({
     username: email.value,
     password: password.value,
   })
 
-  window.location.href = '/profile'
+  if (nextStep.signInStep === 'CONFIRM_SIGN_IN_WITH_TOTP_CODE') {
+    router.push({ name: 'verify_totp' })
+  } else {
+    router.push({ name: 'profile' })
+  }
 }
 </script>
 
@@ -37,7 +44,7 @@ async function handleSignIn(event: Event) {
         class="rounded-full p-2"
         v-model="password"
       />
-      <input type="submit" value="Sign In" class="rounded-full p-2" onsubmit="" />
+      <input type="submit" value="Sign In" class="rounded-full p-2" />
     </form>
   </div>
 </template>

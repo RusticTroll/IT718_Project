@@ -5,7 +5,7 @@ import MagnifyingGlass from '@/components/SVGs/MagnifyingGlass.vue'
 <template>
   <main class="flex flex-col">
     <div class="flex flex-row justify-center pt-4 pb-4 border-b-1 border-gray-500">
-      <div class="border-1 border-gray-500 rounded-full h-12 w-116 focus:border-green-500 relative">
+      <div class="border-1 border-gray-500 rounded-full h-12 w-3/4 focus:border-green-500 relative">
         <input class="pl-4 pr-12 focus:outline-none" />
         <MagnifyingGlass
           :size="36"

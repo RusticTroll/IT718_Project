@@ -9,8 +9,6 @@ const tabs = {
   New,
   Following,
 }
-
-await new Promise((resolve) => setTimeout(resolve, 2000))
 </script>
 
 <template>

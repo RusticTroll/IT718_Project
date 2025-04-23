@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { ref, useTemplateRef } from 'vue'
-import { signUp, confirmSignUp, autoSignIn } from 'aws-amplify/auth'
+import { signUp, confirmSignUp, autoSignIn, confirmSignIn } from 'aws-amplify/auth'
 import ToastComponent from '../ToastComponent.vue'
+import StyledQRCode from '../StyledQRCode.vue'
 
 const errorMessage = ref('')
 const confirmed_email = ref('')
@@ -30,6 +31,9 @@ async function handleSignUp(event: Event) {
           email: email,
           preferred_username: (<HTMLInputElement>form.elements.namedItem('username')).value,
         },
+        autoSignIn: {
+          authFlowType: 'USER_SRP_AUTH'
+        }
       },
     })
 
@@ -39,7 +43,7 @@ async function handleSignUp(event: Event) {
 
     confirmed_email.value = email
 
-    toast.value?.toggle_shown()
+    confirm_toast.value?.toggle_shown()
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     errorMessage.value = error.message
@@ -74,21 +78,57 @@ function validateInputs(
   return true
 }
 
-const toast = useTemplateRef('confirm_toast')
+const confirm_toast = useTemplateRef('confirm_toast')
 const code = ref('')
 
 async function confirm_signup() {
-  const { isSignUpComplete, nextStep } = await confirmSignUp({
-    username: confirmed_email.value,
-    confirmationCode: code.value,
-  })
+  try {
+    await confirmSignUp({
+      username: confirmed_email.value,
+      confirmationCode: code.value,
+    })
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    errorMessage.value = error.message
+    return;
+  }
 
-  console.log('Complete?: %s', isSignUpComplete.toString())
-  console.log('Next Step: %s', nextStep.signUpStep)
+  setup_totp()
+}
 
-  await autoSignIn()
+const totp_toast = useTemplateRef('totp_toast')
+const setupUri = ref('')
+const totp_code = ref('')
 
-  window.location.replace('/profile')
+async function setup_totp() {
+  confirm_toast.value?.toggle_shown()
+
+  const { nextStep } = await autoSignIn()
+  if (nextStep.signInStep === 'CONTINUE_SIGN_IN_WITH_TOTP_SETUP') {
+    const totpSetupDetail = nextStep.totpSetupDetails
+
+    let setupUriTemp = "otpauth://totp/Xitter%3A"
+    setupUriTemp += encodeURIComponent((<HTMLInputElement>document.querySelector('form')!.elements.namedItem('username')).value)
+    setupUriTemp += "?secret=" + totpSetupDetail.sharedSecret
+    setupUriTemp += "&issuer=Xitter"
+
+    setupUri.value = setupUriTemp
+    totp_toast.value?.toggle_shown()
+  }
+}
+
+async function verify_totp() {
+  try {
+    await confirmSignIn({
+      challengeResponse: totp_code.value
+    })
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    errorMessage.value = error.message
+    return;
+  }
+
+  window.location.href = '/profile'
 }
 </script>
 
@@ -131,6 +171,17 @@ async function confirm_signup() {
       </p>
       <input name="code" type="text" placeholder="Verification Code" v-model="code" />
       <button @click="confirm_signup">Confirm</button>
+      <p class="text-red-500">{{ errorMessage }}</p>
+    </template>
+  </ToastComponent>
+  <ToastComponent ref="totp_toast">
+    <template v-slot:title>Set Up TOTP</template>
+    <template v-slot:content>
+      <p>Add the following TOTP to your authenticator app and type in the resulting code.</p>
+      <StyledQRCode v-bind="{data: setupUri, width: 200, height: 200, qrOptions: {errorCorrectionLevel: 'L'}}"/>
+      <input name="code" type="text" placeholder="TOTP Code" v-model="totp_code" />
+      <button @click="verify_totp">Verify</button>
+      <p class="text-red-500">{{ errorMessage }}</p>
     </template>
   </ToastComponent>
 </template>

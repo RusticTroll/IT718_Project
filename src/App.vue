@@ -30,15 +30,7 @@ import HomeImage from './components/SVGs/HomeImage.vue'
     <RouterView v-slot="{ Component }">
       <template v-if="Component">
         <Transition mode="out-in">
-          <KeepAlive>
-            <Suspense>
-              <component :is="Component" />
-
-              <template #fallback>
-                <span class="loader absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
-              </template>
-            </Suspense>
-          </KeepAlive>
+          <component :is="Component" />
         </Transition>
       </template>
     </RouterView>

@@ -18,6 +18,20 @@ async function handleSignIn(event: Event) {
 
   if (nextStep.signInStep === 'CONFIRM_SIGN_IN_WITH_TOTP_CODE') {
     router.push({ name: 'verify_totp' })
+  } else if (nextStep.signInStep === 'CONTINUE_SIGN_IN_WITH_TOTP_SETUP') {
+    const totpSetupDetail = nextStep.totpSetupDetails
+
+    let setupUri = 'otpauth://totp/Xitter%3A'
+    setupUri += encodeURIComponent(email.value)
+    setupUri += '?secret=' + totpSetupDetail.sharedSecret
+    setupUri += '&issuer=Xitter'
+
+    router.push({
+      name: 'setup_totp',
+      state: { setupUri },
+    })
+  } else if (nextStep.signInStep === 'CONFIRM_SIGN_UP') {
+    router.push({ name: 'confirm_sign_up', state: { email_to_confirm: email.value } })
   } else {
     router.push({ name: 'profile' })
   }
@@ -28,32 +42,14 @@ async function handleSignIn(event: Event) {
   <div class="flex justify-center">
     <form class="flex flex-col w-[75%] gap-2 p-4" @submit="handleSignIn">
       <h1>Sign In</h1>
-      <input
-        name="email"
-        type="text"
-        placeholder="Email"
-        required
-        class="rounded-full p-2"
-        v-model="email"
-      />
-      <input
-        name="password"
-        type="password"
-        placeholder="Password"
-        required
-        class="rounded-full p-2"
-        v-model="password"
-      />
-      <input type="submit" value="Sign In" class="rounded-full p-2" />
+      <input name="email" type="text" placeholder="Email" required v-model="email" />
+      <input name="password" type="password" placeholder="Password" required v-model="password" />
+      <input type="submit" value="Sign In" />
     </form>
   </div>
 </template>
 
 <style scoped>
-input {
-  border: 1px gray solid;
-}
-
 form h1 {
   font-weight: bold;
   font-size: 20pt;

@@ -2,6 +2,9 @@
 import { ref } from 'vue'
 import StyledQRCode from '@/components/StyledQRCode.vue'
 import { confirmSignIn } from 'aws-amplify/auth'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 const setup_uri = <string>history.state.setupUri
 const totp_code = ref('')
@@ -18,7 +21,7 @@ async function verify_totp() {
     return
   }
 
-  window.location.href = '/profile'
+  router.push({ name: 'profile' })
 }
 </script>
 

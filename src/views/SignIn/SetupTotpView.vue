@@ -23,9 +23,11 @@ async function verify_totp() {
 </script>
 
 <template>
-  <div class="flex flex-col items-center">
-    <h1>Set Up TOTP</h1>
-    <p>Add the following TOTP to your authenticator app and type in the resulting code.</p>
+  <div class="flex flex-col place-content-center h-full w-3/4 m-auto">
+    <h1 class="text-2xl font-bold text-center">Set Up TOTP</h1>
+    <p class="text-center">
+      Add the following TOTP to your authenticator app<br />Then type in the resulting code
+    </p>
     <StyledQRCode
       v-bind="{
         data: setup_uri,

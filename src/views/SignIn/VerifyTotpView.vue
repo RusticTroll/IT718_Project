@@ -21,8 +21,16 @@ async function verify_totp() {
 </script>
 
 <template>
-  <h1>Verify with TOTP code</h1>
-  <input name="code" type="text" placeholder="TOTP Code" v-model="totp_code" />
-  <button @click="verify_totp">Verify</button>
-  <p class="text-red-500">{{ error_message }}</p>
+  <div class="flex flex-col place-content-center h-full w-3/4 m-auto">
+    <h1 class="text-2xl font-bold text-center">Verify with TOTP code</h1>
+    <input name="code" type="text" placeholder="TOTP Code" v-model="totp_code" />
+    <button @click="verify_totp">Verify</button>
+    <p class="text-red-500">{{ error_message }}</p>
+  </div>
 </template>
+
+<style scoped>
+.flex * {
+  margin: 0.25rem;
+}
+</style>

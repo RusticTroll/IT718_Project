@@ -16,22 +16,21 @@ export const useUserStore = defineStore('user', () => {
 
   const logged_in = computed(() => user_auth_session.value?.tokens !== undefined)
 
-  async function update_user() {
+  async function update_user(refresh_user_data: boolean = false) {
+    // Get the latest auth session data
     user_auth_session.value = await fetchAuthSession()
-    console.log(user.value)
-    console.log(user_attributes.value)
-    console.log(user_auth_session.value)
-    if (logged_in.value) {
-      if (user.value === undefined) {
-        console.log('Retreiving user data!')
-        user.value = await getCurrentUser()
-        user_attributes.value = await fetchUserAttributes()
-      } else {
-        console.log('Using cached user data!')
-      }
-    } else {
+
+    // Reset user and user attributes if we are signed out
+    if (!logged_in.value) {
       user.value = undefined
       user_attributes.value = undefined
+      return
+    }
+
+    // Only refresh data if needed
+    if (user.value === undefined || refresh_user_data) {
+      user.value = await getCurrentUser()
+      user_attributes.value = await fetchUserAttributes()
     }
   }
 

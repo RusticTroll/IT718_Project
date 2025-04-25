@@ -17,7 +17,7 @@ defineProps({
     :height="size"
     :stroke="stroke"
     fill="none"
-    viewBox="0 0 24 24"
+    viewBox="-2 -2 28 28"
     xmlns="http://www.w3.org/2000/svg"
   >
     <path

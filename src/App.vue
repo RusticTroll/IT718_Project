@@ -12,26 +12,26 @@ import Person from './components/SVGs/Person.vue'
     <RouterLink
       v-if="$route.meta.requires_auth"
       to="/"
-      class="content-center h-24 not-lg:flex-1 flex items-center not-lg:justify-center"
+      class="content-center h-24 not-lg:flex-1 flex not-lg:flex-col items-center"
     >
       <HomeImage :size="'4rem'" stroke="hsla(160, 100%, 37%, 1)" />
-      <span class="align-middle pl-2">Home</span>
+      <span class="align-middle lg:pl-2">Home</span>
     </RouterLink>
     <RouterLink
       v-if="$route.meta.requires_auth"
       to="/search"
-      class="content-center h-24 not-lg:flex-1 flex items-center not-lg:justify-center"
+      class="content-center h-24 not-lg:flex-1 flex not-lg:flex-col items-center"
     >
       <MagnifyingGlass :size="'4rem'" stroke="hsla(160, 100%, 37%, 1)" />
-      <span class="align-middle pl-2">Search</span>
+      <span class="align-middle lg:pl-2">Search</span>
     </RouterLink>
     <RouterLink
       v-if="$route.meta.requires_auth"
       to="/profile"
-      class="content-center h-24 not-lg:flex-1 flex items-center not-lg:justify-center"
+      class="content-center h-24 not-lg:flex-1 flex not-lg:flex-col items-center"
     >
       <Person :size="'4rem'" stroke="hsla(160, 100%, 37%, 1)" />
-      <span class="align-middle pl-2">Profile</span>
+      <span class="align-middle lg:pl-2">Profile</span>
     </RouterLink>
   </nav>
 

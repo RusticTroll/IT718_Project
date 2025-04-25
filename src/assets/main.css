@@ -31,3 +31,9 @@ input {
   padding: calc(var(--spacing) * 2);
   border: 1px gray solid;
 }
+
+textarea {
+  border-radius: 0.5rem;
+  padding: calc(var(--spacing) * 2);
+  border: 1px gray solid;
+}

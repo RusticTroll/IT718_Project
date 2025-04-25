@@ -3,6 +3,7 @@ import { RouterLink, RouterView } from 'vue-router'
 import MagnifyingGlass from './components/SVGs/MagnifyingGlass.vue'
 import HomeImage from './components/SVGs/HomeImage.vue'
 import Person from './components/SVGs/Person.vue'
+import PenLine from './components/SVGs/PenLine.vue'
 </script>
 
 <template>
@@ -32,6 +33,14 @@ import Person from './components/SVGs/Person.vue'
     >
       <Person :size="'4rem'" stroke="hsla(160, 100%, 37%, 1)" />
       <span class="align-middle lg:pl-2">Profile</span>
+    </RouterLink>
+    <RouterLink
+      v-if="$route.meta.requires_auth"
+      to="/new"
+      class="content-center h-24 not-lg:flex-1 flex not-lg:flex-col items-center"
+    >
+      <PenLine :size="'4rem'" stroke="hsla(160, 100%, 37%, 1)" />
+      <span class="align-middle lg:pl-2">Xit</span>
     </RouterLink>
   </nav>
 

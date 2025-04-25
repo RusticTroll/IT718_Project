@@ -9,6 +9,7 @@ const SignInView = () => Promise.resolve(import('@/views/SignIn/SignInView.vue')
 const ConfirmSignUpView = () => Promise.resolve(import('@/views/SignIn/ConfirmSignUpView.vue'))
 const SetupTotpView = () => Promise.resolve(import('@/views/SignIn/SetupTotpView.vue'))
 const VerifyTotpView = () => Promise.resolve(import('@/views/SignIn/VerifyTotpView.vue'))
+const NewXitView = () => Promise.resolve(import('@/views/NewXitView.vue'))
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -35,6 +36,15 @@ const router = createRouter({
       path: '/profile',
       name: 'profile',
       component: ProfileView,
+      meta: {
+        requires_auth: true,
+        only_after_signin: false,
+      },
+    },
+    {
+      path: '/new',
+      name: 'new_xit',
+      component: NewXitView,
       meta: {
         requires_auth: true,
         only_after_signin: false,

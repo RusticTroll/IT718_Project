@@ -1,4 +1,5 @@
 import { defineAuth } from '@aws-amplify/backend'
+import { preSignUp } from './pre-sign-up/resource'
 
 /**
  * Define and configure your auth resource
@@ -9,8 +10,8 @@ export const auth = defineAuth({
     email: true,
   },
   multifactor: {
-    mode: "REQUIRED",
-    totp: true
+    mode: 'REQUIRED',
+    totp: true,
   },
   userAttributes: {
     preferredUsername: {
@@ -18,4 +19,8 @@ export const auth = defineAuth({
       required: true,
     },
   },
+  triggers: {
+    preSignUp,
+  },
+  access: (allow) => [allow.resource(preSignUp).to(['listUsers'])],
 })

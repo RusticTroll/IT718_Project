@@ -11,6 +11,8 @@ const confirm_email = ref('')
 const password = ref('')
 const confirm_password = ref('')
 
+const router = useRouter()
+
 async function handleSignUp(event: Event) {
   event.preventDefault()
 
@@ -33,7 +35,6 @@ async function handleSignUp(event: Event) {
       },
     })
 
-    const router = useRouter()
     router.push({ name: 'confirm_sign_up', state: { email_to_confirm: email.value } })
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

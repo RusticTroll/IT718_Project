@@ -50,8 +50,8 @@ const router = createRouter({
       },
     },
     {
-      path: '/confirm_signup',
-      name: 'confirm_signup',
+      path: '/confirm_sign_up',
+      name: 'confirm_sign_up',
       component: ConfirmSignUpView,
       meta: {
         requires_auth: false,
@@ -89,7 +89,7 @@ router.beforeEach(async (to, from) => {
   }
 
   // Prevent access to /verify_totp and /setup_totp unless the last route was /signin
-  if (from.name !== 'signin' && to.meta.only_after_signin) {
+  if (from.name !== 'signin' && from.name !== 'confirm_sign_up' && to.meta.only_after_signin) {
     router.push({ name: 'home' })
   }
 })

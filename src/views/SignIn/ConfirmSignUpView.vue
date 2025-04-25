@@ -46,7 +46,7 @@ async function setup_totp() {
 </script>
 
 <template>
-  <div class="flex flex-col place-content-center text-center">
+  <div class="flex flex-col place-content-center h-full w-3/4 m-auto">
     <h1 class="text-2xl font-bold">Confirm Email</h1>
     <p>
       A code has been sent to {{ email }}.<br />

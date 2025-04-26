@@ -1,10 +1,20 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { generateClient } from 'aws-amplify/api'
+
+import type { Schema } from '@backend/data/resource'
+import { useUserStore } from '@/stores/user'
 
 const xit_text = ref('')
 
+const client = generateClient<Schema>()
+const user = useUserStore()
+
 async function post_xit() {
-  alert(xit_text.value)
+  const { errors, data: new_xit } = await client.models.Xit.create({
+    text: xit_text.value,
+    username: user.user_attributes!.preferred_username!
+  })
 }
 </script>
 

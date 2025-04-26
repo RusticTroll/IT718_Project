@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { generateClient } from 'aws-amplify/api'
 
 import type { Schema } from '@backend/data/resource'
@@ -9,12 +10,19 @@ const xit_text = ref('')
 
 const client = generateClient<Schema>()
 const user = useUserStore()
+const router = useRouter()
 
 async function post_xit() {
   const { errors, data: new_xit } = await client.models.Xit.create({
     text: xit_text.value,
     username: user.user_attributes!.preferred_username!
   })
+
+  if (errors) {
+    return
+  }
+
+  router.push({name: 'single_xit', params: {id: new_xit!.id}})
 }
 </script>
 

@@ -1,8 +1,6 @@
 {
   "type": "module",
   "dependencies": {
-    "@aws-sdk/client-cognito-identity-provider": "^3.796.0",
-    "@types/aws-lambda": "^8.10.149",
     "typescript": "^5"
   }
 }

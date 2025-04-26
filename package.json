@@ -21,7 +21,9 @@
     "tailwindcss": "^4.0.17",
     "vue": "^3.5.13",
     "vue-router": "^4.5.0",
-    "vuetify": "^3.8.0"
+    "vuetify": "^3.8.0",
+    "@aws-sdk/client-cognito-identity-provider": "^3.796.0",
+    "@types/aws-lambda": "^8.10.149"
   },
   "devDependencies": {
     "@aws-amplify/backend": "^1.14.2",

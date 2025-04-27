@@ -10,12 +10,13 @@ const client = generateClient<Schema>()
 
 const first_get = await client.models.Xit.listByParent(
   {
-    parent_id: "None"
+    parent_id: 'None',
   },
   {
     sortDirection: 'DESC',
-    limit: 25
-  })
+    limit: 25,
+  },
+)
 
 const xits = ref(first_get.data)
 const nextToken = ref(first_get.nextToken)
@@ -29,39 +30,55 @@ async function get_more() {
   loading.value = true
   const new_data = await client.models.Xit.listByParent(
     {
-      parent_id: "None"
+      parent_id: 'None',
     },
     {
       sortDirection: 'DESC',
       limit: 25,
-      nextToken: nextToken.value
-    })
+      nextToken: nextToken.value,
+    },
+  )
 
-nextToken.value = new_data.nextToken
-errors.value = new_data.errors
-xits.value = xits.value.concat(new_data.data)
+  nextToken.value = new_data.nextToken
+  errors.value = new_data.errors
+  xits.value = xits.value.concat(new_data.data)
 
-loading.value = false
+  loading.value = false
 }
 
 console.log(xits.value, nextToken.value, errors.value)
 </script>
 
 <template>
-  <div style="height: calc(100% - (var(--spacing) * 20 ))">
+  <div style="height: calc(100% - (var(--spacing) * 20))">
     <DynamicScroller class="scroller" :items="xits" :min-item-size="100" show-loader="true">
-      <template v-slot="{ item, index, active}">
-        <DynamicScrollerItem
-        :item="item"
-        :active="active"
-        :size-dependencies="[
-          item.text,
-        ]"
-        :data-index="index"
+      <template
+        v-slot="{
+          item,
+          index,
+          active,
+        }: {
+          item: {
+            id: string
+            text: string
+            createdAt: string | undefined
+            user: {
+              username: string
+            }
+          }
+          index: any
+          active: any
+        }"
       >
-        <div class="border-1 border-gray-500 mb-[-1px] p-1">
-          <XitComponent v-bind="item"/>
-        </div>
+        <DynamicScrollerItem
+          :item="item"
+          :active="active"
+          :size-dependencies="[item.text]"
+          :data-index="index"
+        >
+          <div class="border-1 border-gray-500 mb-[-1px] p-1">
+            <XitComponent v-bind="item" />
+          </div>
         </DynamicScrollerItem>
       </template>
       <template v-slot:after v-if="nextToken !== null">

@@ -5,19 +5,17 @@ import { ref } from 'vue'
 import type { Schema } from '@backend/data/resource'
 import XitComponent from '@/components/Home/XitComponent.vue'
 import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
-import LoadingThrobber from '../LoadingThrobber.vue'
 
 const client = generateClient<Schema>()
 
-const first_get = await client.models.Xit.listXitByParentIdAndCreatedAt(
-{
-  parentId: "None"
-},
-{
-  sortDirection: 'DESC',
-  limit: 25
-
-})
+const first_get = await client.models.Xit.listByParent(
+  {
+    parent_id: "None"
+  },
+  {
+    sortDirection: 'DESC',
+    limit: 25
+  })
 
 const xits = ref(first_get.data)
 const nextToken = ref(first_get.nextToken)
@@ -29,15 +27,15 @@ const loading = ref(false)
 
 async function get_more() {
   loading.value = true
-  const new_data = await client.models.Xit.listXitByParentIdAndCreatedAt(
-{
-  parentId: "None"
-},
-{
-  sortDirection: 'DESC',
-  limit: 25,
-  nextToken: nextToken.value
-})
+  const new_data = await client.models.Xit.listByParent(
+    {
+      parent_id: "None"
+    },
+    {
+      sortDirection: 'DESC',
+      limit: 25,
+      nextToken: nextToken.value
+    })
 
 nextToken.value = new_data.nextToken
 errors.value = new_data.errors

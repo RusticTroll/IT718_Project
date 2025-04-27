@@ -15,7 +15,7 @@ const router = useRouter()
 async function post_xit() {
   const { errors, data: new_xit } = await client.models.Xit.create({
     text: xit_text.value,
-    username: user.user_attributes!.preferred_username!
+    user_id: user.user!.userId
   })
 
   if (errors) {

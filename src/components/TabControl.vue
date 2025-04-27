@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
+import LoadingThrobber from '@/components/LoadingThrobber.vue'
 
 const props = defineProps(['tabs', 'initial_tab'])
 
@@ -7,9 +8,9 @@ const current_tab = ref(props.initial_tab)
 </script>
 
 <template>
-  <main class="flex flex-col">
+  <main class="h-full">
     <nav
-      class="flex-none grid grid-cols-2 justify-items-stretch items-stretch text-center h-20 border-b-1 border-gray-500"
+      class="grid grid-cols-2 justify-items-stretch items-stretch text-center h-20 border-b-1 border-gray-500"
     >
       <h1
         class="flex-none hover:bg-gray-500 content-center relative transition-all"
@@ -22,6 +23,11 @@ const current_tab = ref(props.initial_tab)
       </h1>
     </nav>
 
-    <component class="flex-grow" :is="tabs[current_tab]" />
+    <Suspense>
+      <component :is="tabs[current_tab]"/>
+      <template #fallback>
+        <LoadingThrobber/>
+      </template>
+    </Suspense>
   </main>
 </template>

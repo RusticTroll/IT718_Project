@@ -12,5 +12,5 @@ const tabs = {
 </script>
 
 <template>
-  <TabControl :tabs="tabs" initial_tab="Following" />
+  <TabControl :tabs="tabs" initial_tab="New" />
 </template>

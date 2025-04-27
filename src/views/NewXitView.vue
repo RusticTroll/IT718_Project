@@ -19,7 +19,7 @@ async function post_xit() {
   })
 
   if (errors) {
-    return
+    console.log(errors)
   }
 
   router.push({name: 'single_xit', params: {id: new_xit!.id}})

@@ -4,11 +4,12 @@ import MagnifyingGlass from './components/SVGs/MagnifyingGlass.vue'
 import HomeImage from './components/SVGs/HomeImage.vue'
 import Person from './components/SVGs/Person.vue'
 import PenLine from './components/SVGs/PenLine.vue'
+import LoadingThrobber from './components/LoadingThrobber.vue'
 </script>
 
 <template>
   <nav
-    class="lg:w-32 lg:min-w-32 flex-1 flex flex-col justify-items-stretch lg:text-end not-lg:flex-row not-lg:text-center not-lg:w-auto not-lg:flex-none lg:text-2xl text-lg"
+    class="lg:w-32 lg:min-w-32 flex-1 flex flex-col justify-items-stretch lg:text-end not-lg:flex-row not-lg:text-center not-lg:w-auto not-lg:flex-none lg:text-2xl text-lg not-lg:24"
   >
     <RouterLink
       v-if="$route.meta.requires_auth"
@@ -44,13 +45,13 @@ import PenLine from './components/SVGs/PenLine.vue'
     </RouterLink>
   </nav>
 
-  <div class="flex-none lg:w-144 not-lg:w-full not-lg:flex-grow border-1 border-gray-500">
+  <div class="flex-none lg:w-144 not-lg:w-full not-lg:flex-grow border-1 border-gray-500 not-lg:h-[calc(100%-24rem)]">
     <RouterView v-slot="{ Component }">
       <template v-if="Component">
         <Suspense>
           <component :is="Component" />
           <template #fallback>
-            <div class="loader absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2" />
+            <LoadingThrobber/>
           </template>
         </Suspense>
       </template>
@@ -65,24 +66,8 @@ import PenLine from './components/SVGs/PenLine.vue'
   font-weight: bold;
 }
 
-.loader {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  display: inline-block;
-  border-top: 3px solid #fff;
-  border-right: 3px solid transparent;
-  box-sizing: border-box;
-  animation: rotation 1s linear infinite;
-}
-
-@keyframes rotation {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
+.router-link-active {
+  background-color: #333333FF;
 }
 
 .v-enter-active {

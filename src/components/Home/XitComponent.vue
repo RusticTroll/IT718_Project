@@ -4,7 +4,7 @@ import { useRouter } from 'vue-router'
 const props = defineProps<{
   id: string
   text: string
-  createdAt: string | undefined
+  createdAt: string | null
   user: {
     username: string
   }

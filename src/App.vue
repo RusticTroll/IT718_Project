@@ -48,17 +48,15 @@ import LoadingThrobber from './components/LoadingThrobber.vue'
   <div class="flex-none lg:w-144 not-lg:w-full not-lg:flex-grow border-1 border-gray-500 not-lg:h-[calc(100%-24rem)]">
     <RouterView v-slot="{ Component }">
       <template v-if="Component">
-        <KeepAlive>
-          <Suspense>
-            <!-- main content -->
-            <component :is="Component"></component>
+        <Suspense>
+          <!-- main content -->
+          <component :is="Component"></component>
 
-            <!-- loading state -->
-            <template #fallback>
-              <LoadingThrobber/>
-            </template>
-          </Suspense>
-        </KeepAlive>
+          <!-- loading state -->
+          <template #fallback>
+            <LoadingThrobber/>
+          </template>
+        </Suspense>
       </template>
     </RouterView>
   </div>

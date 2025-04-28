@@ -24,7 +24,7 @@ const current_tab = ref(props.initial_tab)
     </nav>
 
     <Suspense>
-      <component :is="tabs[current_tab]"/>
+      <component :is="tabs[current_tab]" style="height: 100%"/>
       <template #fallback>
         <LoadingThrobber/>
       </template>

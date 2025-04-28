@@ -3,8 +3,8 @@ import { generateClient } from 'aws-amplify/api'
 import { ref } from 'vue'
 
 import type { Schema } from '@backend/data/resource'
-import XitComponent from '@/components/Home/XitComponent.vue'
 import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
+import XitsScroller from '../XitsScroller.vue'
 
 const client = generateClient<Schema>()
 
@@ -52,42 +52,7 @@ console.log(xits.value, nextToken.value, errors.value)
 </script>
 
 <template>
-  <div style="height: calc(100% - (var(--spacing) * 20))">
-    <DynamicScroller class="scroller" :items="xits" :min-item-size="100" show-loader="true">
-      <template
-        v-slot="{
-          item,
-          index,
-          active,
-        }: {
-          item: {
-            id: string
-            text: string
-            createdAt: string | undefined
-            user: {
-              username: string
-            }
-          }
-          index: any
-          active: any
-        }"
-      >
-        <DynamicScrollerItem
-          :item="item"
-          :active="active"
-          :size-dependencies="[item.text]"
-          :data-index="index"
-        >
-          <div class="border-1 border-gray-500 mb-[-1px] p-1">
-            <XitComponent v-bind="item" />
-          </div>
-        </DynamicScrollerItem>
-      </template>
-      <template v-slot:after v-if="nextToken !== null">
-        <button class="w-full" @click="get_more" v-if="!loading">MORE</button>
-      </template>
-    </DynamicScroller>
-  </div>
+  <XitsScroller @get_more="get_more" :xits="xits" :nextToken="nextToken"/>
 </template>
 
 <style scoped>

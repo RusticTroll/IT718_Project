@@ -15,6 +15,10 @@ a,
   }
 }
 
+html {
+  overflow: hidden;
+}
+
 body {
   display: flex;
   place-items: center;

@@ -53,10 +53,3 @@ console.log(xits.value, nextToken.value, errors.value)
 <template>
   <XitsScroller @get_more="get_more" :xits="xits" :nextToken="nextToken"/>
 </template>
-
-<style scoped>
-.scroller {
-  height: 100%;
-  width: 100%;
-}
-</style>

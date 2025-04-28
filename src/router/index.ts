@@ -34,13 +34,14 @@ const router = createRouter({
       },
     },
     {
-      path: '/profile',
+      path: '/profile/:id',
       name: 'profile',
       component: ProfileView,
       meta: {
         requires_auth: true,
         only_after_signin: false,
       },
+      props: true
     },
     {
       path: '/new',

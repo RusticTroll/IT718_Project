@@ -5,6 +5,9 @@ import HomeImage from './components/SVGs/HomeImage.vue'
 import Person from './components/SVGs/Person.vue'
 import PenLine from './components/SVGs/PenLine.vue'
 import LoadingThrobber from './components/LoadingThrobber.vue'
+
+import { useUserStore } from '@/stores/user';
+const current_user = useUserStore()
 </script>
 
 <template>
@@ -29,7 +32,7 @@ import LoadingThrobber from './components/LoadingThrobber.vue'
     </RouterLink>
     <RouterLink
       v-if="$route.meta.requires_auth"
-      to="/profile"
+      :to="'/profile/' + current_user.user_data!.user_id"
       class="content-center h-24 not-lg:flex-1 flex not-lg:flex-col items-center"
     >
       <Person :size="'4rem'" stroke="hsla(160, 100%, 37%, 1)" />

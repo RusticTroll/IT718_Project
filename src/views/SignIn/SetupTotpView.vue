@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import StyledQRCode from '@/components/StyledQRCode.vue'
-import { confirmSignIn } from 'aws-amplify/auth'
+import { confirmSignIn, fetchUserAttributes, getCurrentUser } from 'aws-amplify/auth'
 import { useRouter } from 'vue-router'
+
+import { generateClient } from 'aws-amplify/api'
+import type { Schema } from '@backend/data/resource'
 
 const router = useRouter()
 
@@ -20,6 +23,17 @@ async function verify_totp() {
     error_message.value = error.message
     return
   }
+
+  const user = await getCurrentUser()
+  const user_attributes = await fetchUserAttributes()
+
+  const client = generateClient<Schema>()
+  await client.models.User.create({
+    user_id: user.userId,
+    username: user_attributes.preferred_username!,
+    following: [],
+    blocking: []
+  })
 
   router.push({ name: 'profile' })
 }

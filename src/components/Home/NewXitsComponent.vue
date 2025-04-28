@@ -3,7 +3,6 @@ import { generateClient } from 'aws-amplify/api'
 import { ref } from 'vue'
 
 import type { Schema } from '@backend/data/resource'
-import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
 import XitsScroller from '../XitsScroller.vue'
 
 const client = generateClient<Schema>()

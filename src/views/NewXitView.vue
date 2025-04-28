@@ -17,7 +17,7 @@ const warning_toast = useTemplateRef('warning')
 const character_max = 269
 
 async function post_xit() {
-  if (xit_text.value.length > character_max) {
+  if (xit_text.value.length > character_max || xit_text.value.length == 0) {
     warning_toast.value?.toggle_shown()
     return
   }
@@ -44,10 +44,12 @@ async function post_xit() {
     </div>
     <ToastComponent ref="warning">
       <template v-slot:title>
-        Too Long
+        <span v-if="xit_text.length == 0">Empty</span>
+        <span v-if="xit_text.length != 0">Too Long</span>
       </template>
       <template v-slot:content>
-        Your Xit must be less than {{ character_max }} characters.
+        <p v-if="xit_text.length == 0">Your Xit cannot be empty.</p>
+        <p v-if="xit_text.length != 0">Your Xit must be less than {{ character_max }} characters.</p>
       </template>
     </ToastComponent>
   </main>

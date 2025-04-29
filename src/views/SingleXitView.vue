@@ -6,6 +6,7 @@ import XitsScroller from '@/components/XitsScroller.vue'
 import PenLine from '@/components/SVGs/PenLine.vue'
 import { useUserStore } from '@/stores/user'
 import ToastComponent from '@/components/ToastComponent.vue'
+import NewXitWritter from '@/components/NewXitWritter.vue'
 
 const props = defineProps({
   id: String,
@@ -66,18 +67,10 @@ onMounted(() => {
 })
 
 const reply_toast = useTemplateRef('reply_toast')
-const warning_toast = useTemplateRef('warning')
-const reply_text = ref('')
-const character_max = 269
 
-async function post_xit() {
-  if (reply_text.value.length > character_max || reply_text.value.length == 0) {
-    warning_toast.value?.toggle_shown()
-    return
-  }
-
+async function post_xit(text: string) {
   const { errors } = await client.models.Xit.create({
-    text: reply_text.value,
+    text,
     user_id: current_user.user!.userId,
     parent_id: props.id!,
   })
@@ -111,27 +104,7 @@ async function post_xit() {
   <ToastComponent ref="reply_toast">
     <template v-slot:title>Reply</template>
     <template v-slot:content>
-      <textarea
-        class="flex-grow mb-2 h-64"
-        placeholder="Let the Xit flow out here"
-        v-model="reply_text"
-      />
-      <div class="flex flex-row">
-        <button class="flex-grow mr-2" @click="post_xit">Xit Yourself</button>
-        <span class="flex-none self-center mr-1">{{ reply_text.length }}/{{ character_max }}</span>
-      </div>
-      <ToastComponent ref="warning">
-        <template v-slot:title>
-          <span v-if="reply_text.length == 0">Empty</span>
-          <span v-if="reply_text.length != 0">Too Long</span>
-        </template>
-        <template v-slot:content>
-          <p v-if="reply_text.length == 0">Your Xit cannot be empty.</p>
-          <p v-if="reply_text.length != 0">
-            Your Xit must be less than {{ character_max }} characters.
-          </p>
-        </template>
-      </ToastComponent>
+      <NewXitWritter @post_xit="post_xit" />
     </template>
   </ToastComponent>
 </template>

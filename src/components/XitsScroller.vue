@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import XitComponent from '@/components/Home/XitComponent.vue'
+import XitComponent from '@/components/XitComponent.vue'
 import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
 
 defineProps<{

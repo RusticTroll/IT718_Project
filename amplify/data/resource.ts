@@ -6,7 +6,7 @@ const schema = a.schema({
     text: a.string().required(),
     createdAt: a.datetime(),
     parent_id: a.string().default('None'),
-    images: a.string().array(),
+    image: a.string(),
     user: a.belongsTo('User', 'user_id')
   })
   .authorization(allow => [

@@ -68,7 +68,7 @@ onMounted(() => {
 
 const reply_toast = useTemplateRef('reply_toast')
 
-async function post_xit(text: string) {
+async function post_xit(text: string, image: File | null) {
   const { errors } = await client.models.Xit.create({
     text,
     user_id: current_user.user!.userId,

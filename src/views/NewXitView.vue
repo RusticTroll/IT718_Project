@@ -10,7 +10,7 @@ const client = generateClient<Schema>()
 const user = useUserStore()
 const router = useRouter()
 
-async function post_xit(text: string) {
+async function post_xit(text: string, image: File | null) {
   const { errors, data: new_xit } = await client.models.Xit.create({
     text,
     user_id: user.user!.userId,

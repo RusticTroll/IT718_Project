@@ -16,8 +16,7 @@ defineExpose({ toggle_shown })
     <div v-if="show" id="toast">
       <div class="absolute top-0 left-0 w-full h-full bg-black opacity-60" />
       <div
-        class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-auto flex flex-col bg-black border-gray-500 border rounded-xl place-items-center"
-      >
+        class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-128 h-auto flex flex-col bg-black border-gray-500 border rounded-xl place-items-center">
         <div class="flex-none">
           <h1>
             <slot name="title" />

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import CloseButton from './SVGs/CloseButton.vue';
+import CloseButton from './SVGs/CloseButton.vue'
 
 const show = ref(false)
 
@@ -23,10 +23,13 @@ defineExpose({ toggle_shown })
             <slot name="title" />
           </h1>
           <button class="absolute right-3 top-3" @click="show = false">
-            <CloseButton/>
+            <CloseButton />
           </button>
         </div>
-        <div id="content-wrapper" class="place-self-stretch flex-grow flex flex-row mr-auto ml-auto mb-1 mt-1">
+        <div
+          id="content-wrapper"
+          class="place-self-stretch flex-grow flex flex-row mr-auto ml-auto mb-1 mt-1"
+        >
           <slot name="content" />
         </div>
       </div>

@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import type { Schema } from '@backend/data/resource'
-import { generateClient } from 'aws-amplify/api';
+import { generateClient } from 'aws-amplify/api'
 import XitsScroller from '@/components/XitsScroller.vue'
 
-import { useUserStore } from '@/stores/user';
-import { ref } from 'vue';
+import { useUserStore } from '@/stores/user'
+import { ref } from 'vue'
 const current_user = useUserStore()
 
 const props = defineProps<{
@@ -13,17 +13,19 @@ const props = defineProps<{
 
 const client = generateClient<Schema>()
 
-const { data: user } = await client.models.User.get({user_id: props.id})
-const xits = ref<{
-    readonly id: string;
-    readonly text: string;
-    readonly createdAt: string | null;
+const { data: user } = await client.models.User.get({ user_id: props.id })
+const xits = ref<
+  {
+    readonly id: string
+    readonly text: string
+    readonly createdAt: string | null
     readonly user: {
-        readonly username: string;
-    };
-}[]>([])
-const nextToken = ref<string|null|undefined>(null)
-const errors = ref<unknown[]|undefined>([])
+      readonly username: string
+    }
+  }[]
+>([])
+const nextToken = ref<string | null | undefined>(null)
+const errors = ref<unknown[] | undefined>([])
 
 if (!current_user.user_data?.blocking.includes(user!.user_id)) {
   const first_get = await client.models.Xit.listByUser(
@@ -72,7 +74,7 @@ async function block_user() {
 
   await client.models.User.update({
     user_id: current_user.user_data!.user_id,
-    blocking: user_blocks.concat(user!.user_id)
+    blocking: user_blocks.concat(user!.user_id),
   })
 
   current_user.update_user(true)
@@ -83,7 +85,7 @@ async function unblock_user() {
 
   await client.models.User.update({
     user_id: current_user.user_data!.user_id,
-    blocking: user_blocks.filter(user_id => user_id !== user!.user_id)
+    blocking: user_blocks.filter((user_id) => user_id !== user!.user_id),
   })
 
   current_user.update_user(true)
@@ -101,7 +103,7 @@ async function follow_user() {
 
   await client.models.User.update({
     user_id: current_user.user_data!.user_id,
-    following: user_follows.concat(user!.user_id)
+    following: user_follows.concat(user!.user_id),
   })
 
   current_user.update_user(true)
@@ -112,7 +114,7 @@ async function unfollow_user() {
 
   await client.models.User.update({
     user_id: current_user.user_data!.user_id,
-    following: user_follows.filter(user_id => user_id !== user!.user_id)
+    following: user_follows.filter((user_id) => user_id !== user!.user_id),
   })
 
   current_user.update_user(true)
@@ -124,15 +126,40 @@ async function unfollow_user() {
     <div class="flex flex-row h-20 place-items-center border-b-1 border-gray-500">
       <h1 class="flex-grow font-extrabold text-4xl m-4">{{ user!.username }}</h1>
       <div class="flex-none justify-self-end m-1">
-        <button v-if="!current_user.user_data?.following.includes(user!.user_id)" @click="follow_user">Follow</button>
-        <button v-if="current_user.user_data?.following.includes(user!.user_id)" @click="unfollow_user">Unfollow</button>
+        <button
+          v-if="!current_user.user_data?.following.includes(user!.user_id)"
+          @click="follow_user"
+        >
+          Follow
+        </button>
+        <button
+          v-if="current_user.user_data?.following.includes(user!.user_id)"
+          @click="unfollow_user"
+        >
+          Unfollow
+        </button>
       </div>
       <div class="flex-none justify-self-end m-1 mr-4">
-        <button v-if="!current_user.user_data?.blocking.includes(user!.user_id)" @click="block_user">Block</button>
-        <button v-if="current_user.user_data?.blocking.includes(user!.user_id)" @click="unblock_user">Unblock</button>
+        <button
+          v-if="!current_user.user_data?.blocking.includes(user!.user_id)"
+          @click="block_user"
+        >
+          Block
+        </button>
+        <button
+          v-if="current_user.user_data?.blocking.includes(user!.user_id)"
+          @click="unblock_user"
+        >
+          Unblock
+        </button>
       </div>
     </div>
-    <XitsScroller v-if="!current_user.user_data?.blocking.includes(user!.user_id)" :xits="xits" :nextToken="nextToken" @get_more="get_more"/>
+    <XitsScroller
+      v-if="!current_user.user_data?.blocking.includes(user!.user_id)"
+      :xits="xits"
+      :nextToken="nextToken"
+      @get_more="get_more"
+    />
     <p v-if="current_user.user_data?.blocking.includes(user!.user_id)">
       You have this person blocked dummy. You gotta unblock to see their Xits
     </p>

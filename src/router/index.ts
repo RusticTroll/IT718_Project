@@ -41,7 +41,7 @@ const router = createRouter({
         requires_auth: true,
         only_after_signin: false,
       },
-      props: true
+      props: true,
     },
     {
       path: '/new',
@@ -60,7 +60,7 @@ const router = createRouter({
         requires_auth: true,
         only_after_signin: false,
       },
-      props: true
+      props: true,
     },
     {
       path: '/signin',

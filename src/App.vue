@@ -2,11 +2,11 @@
 import { RouterLink, RouterView } from 'vue-router'
 import MagnifyingGlass from './components/SVGs/MagnifyingGlass.vue'
 import HomeImage from './components/SVGs/HomeImage.vue'
-import Person from './components/SVGs/Person.vue'
+import PersonImage from './components/SVGs/PersonImage.vue'
 import PenLine from './components/SVGs/PenLine.vue'
 import LoadingThrobber from './components/LoadingThrobber.vue'
 
-import { useUserStore } from '@/stores/user';
+import { useUserStore } from '@/stores/user'
 const current_user = useUserStore()
 </script>
 
@@ -35,7 +35,7 @@ const current_user = useUserStore()
       :to="'/profile/' + current_user.user_data!.user_id"
       class="content-center h-24 not-lg:flex-1 flex not-lg:flex-col items-center"
     >
-      <Person :size="'4rem'" stroke="hsla(160, 100%, 37%, 1)" />
+      <PersonImage :size="'4rem'" stroke="hsla(160, 100%, 37%, 1)" />
       <span class="align-middle lg:pl-2">Profile</span>
     </RouterLink>
     <RouterLink
@@ -48,7 +48,9 @@ const current_user = useUserStore()
     </RouterLink>
   </nav>
 
-  <div class="flex-none lg:w-144 not-lg:w-full not-lg:flex-grow border-1 border-gray-500 not-lg:h-[calc(100%-24rem)]">
+  <div
+    class="flex-none lg:w-144 not-lg:w-full not-lg:flex-grow border-1 border-gray-500 not-lg:h-[calc(100%-24rem)]"
+  >
     <RouterView v-slot="{ Component }">
       <template v-if="Component">
         <Suspense>
@@ -57,7 +59,7 @@ const current_user = useUserStore()
 
           <!-- loading state -->
           <template #fallback>
-            <LoadingThrobber/>
+            <LoadingThrobber />
           </template>
         </Suspense>
       </template>
@@ -73,7 +75,7 @@ const current_user = useUserStore()
 }
 
 .router-link-active {
-  background-color: #333333FF;
+  background-color: #333333ff;
 }
 
 .v-enter-active {

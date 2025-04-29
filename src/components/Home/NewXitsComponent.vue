@@ -51,5 +51,5 @@ console.log(xits.value, nextToken.value, errors.value)
 </script>
 
 <template>
-  <XitsScroller @get_more="get_more" :xits="xits" :nextToken="nextToken"/>
+  <XitsScroller @get_more="get_more" :xits="xits" :nextToken="nextToken" />
 </template>

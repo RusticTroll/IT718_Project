@@ -2,21 +2,29 @@
 import XitComponent from '@/components/Home/XitComponent.vue'
 import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
 
-defineProps<{xits: {
-            id: string
-            text: string
-            createdAt: string | null
-            user: {
-              username: string
-            }
-          }[],
-        nextToken: string | null| undefined}>()
+defineProps<{
+  xits: {
+    id: string
+    text: string
+    createdAt: string | null
+    user: {
+      username: string
+    }
+  }[]
+  nextToken: string | null | undefined
+}>()
 
 defineEmits(['get_more'])
 </script>
 
 <template>
-  <DynamicScroller class="scroller" :items="xits" :min-item-size="10" show-loader="true" style="height: calc(100% - (var(--spacing) * 20))">
+  <DynamicScroller
+    class="scroller"
+    :items="xits"
+    :min-item-size="10"
+    show-loader="true"
+    style="height: calc(100% - (var(--spacing) * 20))"
+  >
     <template
       v-slot="{
         item,

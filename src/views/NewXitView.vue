@@ -24,14 +24,14 @@ async function post_xit() {
 
   const { errors, data: new_xit } = await client.models.Xit.create({
     text: xit_text.value,
-    user_id: user.user!.userId
+    user_id: user.user!.userId,
   })
 
   if (errors) {
     console.log(errors)
   }
 
-  router.push({name: 'single_xit', params: {id: new_xit!.id}})
+  router.push({ name: 'single_xit', params: { id: new_xit!.id } })
 }
 </script>
 
@@ -49,7 +49,9 @@ async function post_xit() {
       </template>
       <template v-slot:content>
         <p v-if="xit_text.length == 0">Your Xit cannot be empty.</p>
-        <p v-if="xit_text.length != 0">Your Xit must be less than {{ character_max }} characters.</p>
+        <p v-if="xit_text.length != 0">
+          Your Xit must be less than {{ character_max }} characters.
+        </p>
       </template>
     </ToastComponent>
   </main>

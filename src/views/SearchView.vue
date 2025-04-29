@@ -11,16 +11,18 @@ const search_term_for_get_more = ref('')
 
 const client = generateClient<Schema>()
 
-const xits = ref<{
-    readonly id: string;
-    readonly text: string;
-    readonly createdAt: string | null;
+const xits = ref<
+  {
+    readonly id: string
+    readonly text: string
+    readonly createdAt: string | null
     readonly user: {
-        readonly username: string;
-    };
-}[]>([])
-const nextToken = ref<string|null|undefined>(null)
-const errors = ref<unknown[]|undefined>([])
+      readonly username: string
+    }
+  }[]
+>([])
+const nextToken = ref<string | null | undefined>(null)
+const errors = ref<unknown[] | undefined>([])
 
 console.log(xits.value, nextToken.value, errors.value)
 
@@ -39,9 +41,9 @@ async function initial_search() {
       selectionSet: ['id', 'text', 'createdAt', 'user.username'],
       filter: {
         text: {
-          contains: search_term.value
-        }
-      }
+          contains: search_term.value,
+        },
+      },
     },
   )
 
@@ -69,9 +71,9 @@ async function get_more() {
       selectionSet: ['id', 'text', 'createdAt', 'user.username'],
       filter: {
         text: {
-          contains: search_term_for_get_more.value
-        }
-      }
+          contains: search_term_for_get_more.value,
+        },
+      },
     },
   )
 
@@ -86,7 +88,7 @@ async function get_more() {
 </script>
 
 <template>
-  <main style="height: 100%;">
+  <main style="height: 100%">
     <div class="flex flex-row justify-center pt-4 pb-4">
       <div
         class="border-1 border-gray-500 rounded-full h-12 w-3/4 relative transition-colors"
@@ -98,16 +100,16 @@ async function get_more() {
           v-on:focusin="focused = true"
           v-on:focusout="focused = false"
         />
-        <button class="absolute right-1 top-1 bg-gray-500 hover:bg-gray-400"
-                style="border-radius: calc(infinity * 1px); padding: 0;"
-                @click="initial_search">
-          <MagnifyingGlass
-            :size="'36'"
-          />
+        <button
+          class="absolute right-1 top-1 bg-gray-500 hover:bg-gray-400"
+          style="border-radius: calc(infinity * 1px); padding: 0"
+          @click="initial_search"
+        >
+          <MagnifyingGlass :size="'36'" />
         </button>
       </div>
     </div>
-    <XitsScroller :xits="xits" :nextToken="nextToken" @get_more="get_more"/>
+    <XitsScroller :xits="xits" :nextToken="nextToken" @get_more="get_more" />
   </main>
 </template>
 

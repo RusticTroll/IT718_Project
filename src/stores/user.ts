@@ -15,7 +15,7 @@ type User = Schema['User']['type']
 
 async function get_user_data(user_id: string): Promise<User> {
   const client = generateClient<Schema>()
-  return (await client.models.User.get({user_id})).data!
+  return (await client.models.User.get({ user_id })).data!
 }
 
 export const useUserStore = defineStore('user', () => {

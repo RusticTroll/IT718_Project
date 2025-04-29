@@ -32,7 +32,7 @@ async function verify_totp() {
     user_id: user.userId,
     username: user_attributes.preferred_username!,
     following: [],
-    blocking: []
+    blocking: [],
   })
 
   router.push({ name: 'profile' })

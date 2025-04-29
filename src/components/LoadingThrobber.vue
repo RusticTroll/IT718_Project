@@ -1,6 +1,4 @@
-<script setup lang="ts">
-
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <div class="loader absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2" />

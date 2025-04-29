@@ -5,24 +5,24 @@ import { ref } from 'vue'
 import type { Schema } from '@backend/data/resource'
 import XitsScroller from '@/components/XitsScroller.vue'
 
-import { useUserStore } from '@/stores/user';
+import { useUserStore } from '@/stores/user'
 const current_user = useUserStore()
 
 const client = generateClient<Schema>()
 
 const filter = {
-  or: Array<{user_id: {eq: string}}>()
+  or: Array<{ user_id: { eq: string } }>(),
 }
 
 for (const user_id of current_user.user_data!.following) {
-  filter.or.push({user_id: {eq: user_id!}})
+  filter.or.push({ user_id: { eq: user_id! } })
 }
 
 if (filter.or.length == 0) {
   filter.or.push({
     user_id: {
-      eq: 'None'
-    }
+      eq: 'None',
+    },
   })
 }
 
@@ -36,7 +36,7 @@ const first_get = await client.models.Xit.listByParent(
     sortDirection: 'DESC',
     limit: 25,
     selectionSet: ['id', 'text', 'createdAt', 'user.username'],
-    filter: filter
+    filter: filter,
   },
 )
 
@@ -59,7 +59,7 @@ async function get_more() {
       limit: 25,
       nextToken: nextToken.value,
       selectionSet: ['id', 'text', 'createdAt', 'user.username'],
-      filter: filter
+      filter: filter,
     },
   )
 
@@ -74,5 +74,5 @@ console.log(xits.value, nextToken.value, errors.value)
 </script>
 
 <template>
-  <XitsScroller @get_more="get_more" :xits="xits" :nextToken="nextToken"/>
+  <XitsScroller @get_more="get_more" :xits="xits" :nextToken="nextToken" />
 </template>

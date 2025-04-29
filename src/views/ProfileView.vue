@@ -78,6 +78,8 @@ async function block_user() {
     blocking: user_blocks.concat(user!.user_id),
   })
 
+  await unfollow_user()
+
   current_user.update_user(true)
 }
 

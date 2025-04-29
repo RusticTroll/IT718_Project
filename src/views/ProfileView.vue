@@ -5,6 +5,7 @@ import XitsScroller from '@/components/XitsScroller.vue'
 
 import { useUserStore } from '@/stores/user'
 import { ref } from 'vue'
+import { signOut } from 'aws-amplify/auth'
 const current_user = useUserStore()
 
 const props = defineProps<{
@@ -67,7 +68,7 @@ async function block_user() {
   if (user!.user_id == current_user.user_data!.user_id) {
     // Prevent self-blocking
     alert('NO SELF BLOCK')
-    //return
+    return
   }
 
   const user_blocks = current_user.user_data!.blocking
@@ -96,7 +97,7 @@ async function follow_user() {
   if (user!.user_id == current_user.user_data!.user_id) {
     // Prevent self-blocking
     alert('NO SELF FOLLOW')
-    //return
+    return
   }
 
   const user_follows = current_user.user_data!.following
@@ -119,6 +120,10 @@ async function unfollow_user() {
 
   current_user.update_user(true)
 }
+
+async function sign_out() {
+  await signOut()
+}
 </script>
 
 <template>
@@ -127,13 +132,19 @@ async function unfollow_user() {
       <h1 class="flex-grow font-extrabold text-4xl m-4">{{ user!.username }}</h1>
       <div class="flex-none justify-self-end m-1">
         <button
-          v-if="!current_user.user_data?.following.includes(user!.user_id)"
+          v-if="
+            !current_user.user_data?.following.includes(user!.user_id) &&
+            current_user.user!.userId !== user!.user_id
+          "
           @click="follow_user"
         >
           Follow
         </button>
         <button
-          v-if="current_user.user_data?.following.includes(user!.user_id)"
+          v-if="
+            current_user.user_data?.following.includes(user!.user_id) &&
+            current_user.user!.userId !== user!.user_id
+          "
           @click="unfollow_user"
         >
           Unfollow
@@ -141,25 +152,31 @@ async function unfollow_user() {
       </div>
       <div class="flex-none justify-self-end m-1 mr-4">
         <button
-          v-if="!current_user.user_data?.blocking.includes(user!.user_id)"
+          v-if="
+            !current_user.user_data?.blocking.includes(user!.user_id) &&
+            current_user.user!.userId !== user!.user_id
+          "
           @click="block_user"
         >
           Block
         </button>
         <button
-          v-if="current_user.user_data?.blocking.includes(user!.user_id)"
+          v-if="
+            current_user.user_data?.blocking.includes(user!.user_id) &&
+            current_user.user!.userId !== user!.user_id
+          "
           @click="unblock_user"
         >
           Unblock
         </button>
       </div>
+      <button class="mr-4" v-if="current_user.user!.userId === user!.user_id" @click="sign_out">
+        Sign Out
+      </button>
     </div>
-    <XitsScroller
-      v-if="!current_user.user_data?.blocking.includes(user!.user_id)"
-      :xits="xits"
-      :nextToken="nextToken"
-      @get_more="get_more"
-    />
+    <div style="height: calc(100% - (var(--spacing) * 20))">
+      <XitsScroller @get_more="get_more" :xits="xits" :nextToken="nextToken" />
+    </div>
     <p v-if="current_user.user_data?.blocking.includes(user!.user_id)">
       You have this person blocked dummy. You gotta unblock to see their Xits
     </p>

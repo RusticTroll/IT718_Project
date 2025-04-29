@@ -109,7 +109,9 @@ async function get_more() {
         </button>
       </div>
     </div>
-    <XitsScroller :xits="xits" :nextToken="nextToken" @get_more="get_more" />
+    <div style="height: calc(100% - (var(--spacing) * 20))">
+      <XitsScroller @get_more="get_more" :xits="xits" :nextToken="nextToken" />
+    </div>
   </main>
 </template>
 

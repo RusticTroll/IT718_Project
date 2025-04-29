@@ -26,10 +26,7 @@ defineExpose({ toggle_shown })
             <CloseButton />
           </button>
         </div>
-        <div
-          id="content-wrapper"
-          class="place-self-stretch flex-grow flex flex-row mr-auto ml-auto mb-1 mt-1"
-        >
+        <div id="content-wrapper" class="place-self-stretch flex-grow flex flex-col m-1">
           <slot name="content" />
         </div>
       </div>

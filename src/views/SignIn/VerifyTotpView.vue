@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { confirmSignIn } from 'aws-amplify/auth'
+
+const router = useRouter()
 
 const totp_code = ref('')
 const error_message = ref('')
@@ -16,7 +19,7 @@ async function verify_totp() {
     return
   }
 
-  window.location.href = '/profile'
+  router.push({ name: 'home' })
 }
 </script>
 

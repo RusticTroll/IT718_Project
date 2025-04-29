@@ -23,7 +23,7 @@ defineEmits(['get_more'])
     :items="xits"
     :min-item-size="10"
     show-loader="true"
-    style="height: calc(100% - (var(--spacing) * 20))"
+    style="height: 100%"
   >
     <template
       v-slot="{

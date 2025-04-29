@@ -74,5 +74,7 @@ console.log(xits.value, nextToken.value, errors.value)
 </script>
 
 <template>
-  <XitsScroller @get_more="get_more" :xits="xits" :nextToken="nextToken" />
+  <div style="height: calc(100% - (var(--spacing) * 20))">
+    <XitsScroller @get_more="get_more" :xits="xits" :nextToken="nextToken" />
+  </div>
 </template>

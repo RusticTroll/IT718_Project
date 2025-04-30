@@ -1,9 +1,16 @@
 <script setup lang="ts">
-import TheWelcome from '../components/TheWelcome.vue'
+import { defineAsyncComponent } from 'vue'
+import TabControl from '@/components/TabControl.vue'
+
+const New = defineAsyncComponent(() => import('@/components/Home/NewXitsComponent.vue'))
+const Following = defineAsyncComponent(() => import('@/components/Home/FollowingComponent.vue'))
+
+const tabs = {
+  New,
+  Following,
+}
 </script>
 
 <template>
-  <main>
-    <TheWelcome />
-  </main>
+  <TabControl :tabs="tabs" initial_tab="Following" />
 </template>

@@ -1,18 +1,11 @@
 @import './base.css';
-
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  font-weight: normal;
-}
+@import 'tailwindcss';
 
 a,
 .green {
   text-decoration: none;
   color: hsla(160, 100%, 37%, 1);
   transition: 0.4s;
-  padding: 3px;
 }
 
 @media (hover: hover) {
@@ -21,15 +14,29 @@ a,
   }
 }
 
-@media (min-width: 1024px) {
-  body {
-    display: flex;
-    place-items: center;
-  }
+html {
+  overflow: hidden;
+}
 
-  #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
-  }
+body {
+  display: flex;
+  place-items: center;
+}
+
+button {
+  border: 1px solid gray;
+  border-radius: 0.5rem;
+  padding: 0.25rem;
+}
+
+input {
+  border-radius: calc(infinity * 1px);
+  padding: calc(var(--spacing) * 2);
+  border: 1px gray solid;
+}
+
+textarea {
+  border-radius: 0.5rem;
+  padding: calc(var(--spacing) * 2);
+  border: 1px gray solid;
 }

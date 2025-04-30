@@ -32,13 +32,18 @@ const errors = ref<unknown[] | undefined>([])
 if (!current_user.user_data?.blocking.includes(user!.user_id)) {
   const first_get = await client.models.Xit.listByUser(
     {
-      user_id: user!.user_id,
+      user_id: user!.user_id
     },
     {
       sortDirection: 'DESC',
       limit: 25,
       nextToken: nextToken.value,
       selectionSet: ['id', 'text', 'createdAt', 'user.username', 'image'],
+      filter: {
+        parent_id: {
+          eq: 'None'
+        }
+      }
     },
   )
 

@@ -35,7 +35,7 @@ async function verify_totp() {
     blocking: [],
   })
 
-  router.push({ name: 'profile' })
+  router.push({ name: 'home' })
 }
 </script>
 
@@ -45,15 +45,13 @@ async function verify_totp() {
     <p class="text-center">
       Add the following TOTP to your authenticator app<br />Then type in the resulting code
     </p>
-    <StyledQRCode
-      v-bind="{
-        data: setup_uri,
-        width: 200,
-        height: 200,
-        qrOptions: { errorCorrectionLevel: 'L' },
-        backgroundOptions: { color: '#FFFFFF' },
-      }"
-    />
+    <StyledQRCode v-bind="{
+      data: setup_uri,
+      width: 200,
+      height: 200,
+      qrOptions: { errorCorrectionLevel: 'L' },
+      backgroundOptions: { color: '#FFFFFF' },
+    }" />
     <input name="code" type="text" placeholder="TOTP Code" v-model="totp_code" />
     <button @click="verify_totp">Verify</button>
     <p class="text-red-500">{{ error_message }}</p>

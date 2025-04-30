@@ -8,6 +8,7 @@ import { useUserStore } from '@/stores/user'
 import ToastComponent from '@/components/ToastComponent.vue'
 import NewXitWritter from '@/components/NewXitWritter.vue'
 import { getUrl, uploadData } from 'aws-amplify/storage'
+import { useRouter } from 'vue-router'
 
 const props = defineProps({
   id: String,
@@ -133,7 +134,7 @@ if (xit!.image) {
     <div ref="post" class="border-b-1 border-gray-500 p-2 flex flex-row">
       <div class="flex-grow mr-2">
         <h1 class="font-bold">
-          <a :href="'/profile/' + xit_poster!.user_id">{{ xit_poster!.username }}</a> posted at {{ new
+          <RouterLink :to="'/profile/' + xit_poster!.user_id">{{ xit_poster!.username }}</RouterLink> posted at {{ new
             Date(xit!.createdAt!).toLocaleString() }}
         </h1>
         <p>{{ xit!.text }}</p>

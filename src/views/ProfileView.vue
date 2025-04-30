@@ -22,7 +22,8 @@ const xits = ref<
     readonly createdAt: string | null
     readonly user: {
       readonly username: string
-    }
+    },
+    readonly image: string | null
   }[]
 >([])
 const nextToken = ref<string | null | undefined>(null)
@@ -37,7 +38,7 @@ if (!current_user.user_data?.blocking.includes(user!.user_id)) {
       sortDirection: 'DESC',
       limit: 25,
       nextToken: nextToken.value,
-      selectionSet: ['id', 'text', 'createdAt', 'user.username'],
+      selectionSet: ['id', 'text', 'createdAt', 'user.username', 'image'],
     },
   )
 
@@ -55,7 +56,7 @@ async function get_more() {
       sortDirection: 'DESC',
       limit: 25,
       nextToken: nextToken.value,
-      selectionSet: ['id', 'text', 'createdAt', 'user.username'],
+      selectionSet: ['id', 'text', 'createdAt', 'user.username', 'image'],
     },
   )
 
@@ -92,6 +93,8 @@ async function unblock_user() {
   })
 
   current_user.update_user(true)
+  xits.value = []
+  nextToken.value = null
   get_more()
 }
 
@@ -133,42 +136,30 @@ async function sign_out() {
     <div class="flex flex-row h-20 place-items-center border-b-1 border-gray-500">
       <h1 class="flex-grow font-extrabold text-4xl m-4">{{ user!.username }}</h1>
       <div class="flex-none justify-self-end m-1">
-        <button
-          v-if="
-            !current_user.user_data?.following.includes(user!.user_id) &&
-            current_user.user!.userId !== user!.user_id
-          "
-          @click="follow_user"
-        >
+        <button v-if="
+          !current_user.user_data?.following.includes(user!.user_id) &&
+          current_user.user!.userId !== user!.user_id
+        " @click="follow_user">
           Follow
         </button>
-        <button
-          v-if="
-            current_user.user_data?.following.includes(user!.user_id) &&
-            current_user.user!.userId !== user!.user_id
-          "
-          @click="unfollow_user"
-        >
+        <button v-if="
+          current_user.user_data?.following.includes(user!.user_id) &&
+          current_user.user!.userId !== user!.user_id
+        " @click="unfollow_user">
           Unfollow
         </button>
       </div>
       <div class="flex-none justify-self-end m-1 mr-4">
-        <button
-          v-if="
-            !current_user.user_data?.blocking.includes(user!.user_id) &&
-            current_user.user!.userId !== user!.user_id
-          "
-          @click="block_user"
-        >
+        <button v-if="
+          !current_user.user_data?.blocking.includes(user!.user_id) &&
+          current_user.user!.userId !== user!.user_id
+        " @click="block_user">
           Block
         </button>
-        <button
-          v-if="
-            current_user.user_data?.blocking.includes(user!.user_id) &&
-            current_user.user!.userId !== user!.user_id
-          "
-          @click="unblock_user"
-        >
+        <button v-if="
+          current_user.user_data?.blocking.includes(user!.user_id) &&
+          current_user.user!.userId !== user!.user_id
+        " @click="unblock_user">
           Unblock
         </button>
       </div>
@@ -176,10 +167,11 @@ async function sign_out() {
         Sign Out
       </button>
     </div>
-    <div style="height: calc(100% - (var(--spacing) * 20))">
+    <div v-if="!current_user.user_data?.blocking.includes(user!.user_id)"
+      style="height: calc(100% - (var(--spacing) * 20))">
       <XitsScroller @get_more="get_more" :xits="xits" :nextToken="nextToken" />
     </div>
-    <p v-if="current_user.user_data?.blocking.includes(user!.user_id)">
+    <p v-else>
       You have this person blocked dummy. You gotta unblock to see their Xits
     </p>
   </main>

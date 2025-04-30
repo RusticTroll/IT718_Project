@@ -18,7 +18,8 @@ const xits = ref<
     readonly createdAt: string | null
     readonly user: {
       readonly username: string
-    }
+    },
+    readonly image: string | null
   }[]
 >([])
 const nextToken = ref<string | null | undefined>(null)
@@ -38,7 +39,7 @@ async function initial_search() {
       sortDirection: 'DESC',
       limit: 25,
       nextToken: nextToken.value,
-      selectionSet: ['id', 'text', 'createdAt', 'user.username'],
+      selectionSet: ['id', 'text', 'createdAt', 'user.username', 'image'],
       filter: {
         text: {
           contains: search_term.value,
@@ -68,7 +69,7 @@ async function get_more() {
       sortDirection: 'DESC',
       limit: 25,
       nextToken: nextToken.value,
-      selectionSet: ['id', 'text', 'createdAt', 'user.username'],
+      selectionSet: ['id', 'text', 'createdAt', 'user.username', 'image'],
       filter: {
         text: {
           contains: search_term_for_get_more.value,
@@ -90,21 +91,12 @@ async function get_more() {
 <template>
   <main style="height: 100%">
     <div class="flex flex-row justify-center pt-4 pb-4">
-      <div
-        class="border-1 border-gray-500 rounded-full h-12 w-3/4 relative transition-colors"
-        :class="{ 'border-green-500': focused }"
-      >
-        <input
-          class="focus:outline-none w-[90%] h-full"
-          v-model="search_term"
-          v-on:focusin="focused = true"
-          v-on:focusout="focused = false"
-        />
-        <button
-          class="absolute right-1 top-1 bg-gray-500 hover:bg-gray-400"
-          style="border-radius: calc(infinity * 1px); padding: 0"
-          @click="initial_search"
-        >
+      <div class="border-1 border-gray-500 rounded-full h-12 w-3/4 relative transition-colors"
+        :class="{ 'border-green-500': focused }">
+        <input class="focus:outline-none w-[90%] h-full" v-model="search_term" v-on:focusin="focused = true"
+          v-on:focusout="focused = false" />
+        <button class="absolute right-1 top-1 bg-gray-500 hover:bg-gray-400"
+          style="border-radius: calc(infinity * 1px); padding: 0" @click="initial_search">
           <MagnifyingGlass :size="'36'" />
         </button>
       </div>

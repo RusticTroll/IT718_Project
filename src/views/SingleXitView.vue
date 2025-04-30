@@ -7,6 +7,7 @@ import PenLine from '@/components/SVGs/PenLine.vue'
 import { useUserStore } from '@/stores/user'
 import ToastComponent from '@/components/ToastComponent.vue'
 import NewXitWritter from '@/components/NewXitWritter.vue'
+import { getUrl, uploadData } from 'aws-amplify/storage'
 
 const props = defineProps({
   id: String,
@@ -33,7 +34,7 @@ const initial_replies = await client.models.Xit.listByParent(
   {
     sortDirection: 'DESC',
     limit: 25,
-    selectionSet: ['id', 'text', 'createdAt', 'user.username'],
+    selectionSet: ['id', 'text', 'createdAt', 'user.username', 'image'],
     filter,
   },
 )
@@ -50,7 +51,7 @@ async function get_more_replies() {
       sortDirection: 'DESC',
       limit: 25,
       nextToken: nextToken.value,
-      selectionSet: ['id', 'text', 'createdAt', 'user.username'],
+      selectionSet: ['id', 'text', 'createdAt', 'user.username', 'image'],
       filter,
     },
   )
@@ -68,11 +69,45 @@ onMounted(() => {
 
 const reply_toast = useTemplateRef('reply_toast')
 
+function upload_image(image: File): Promise<string | null> {
+  const file_reader = new FileReader()
+
+  return new Promise((resolve) => {
+    file_reader.onerror = () => {
+      file_reader.abort()
+      resolve(null)
+    }
+
+    file_reader.onload = async () => {
+      try {
+        const upload = await uploadData({
+          data: <ArrayBuffer>file_reader.result,
+          path: ({ identityId }) => `images/${identityId}/${self.crypto.randomUUID()}-${image.name}`,
+        }).result
+
+        resolve(upload.path)
+      } catch {
+        alert("An error occured when trying to upload the provided image\n" +
+          "Please try again later")
+      }
+    }
+
+    file_reader.readAsArrayBuffer(image)
+  })
+}
+
 async function post_xit(text: string, image: File | null) {
+  let image_path: string | null = null
+  if (image) {
+    image_path = await upload_image(image)
+    if (!image_path) return;
+  }
+
   const { errors } = await client.models.Xit.create({
     text,
     user_id: current_user.user!.userId,
     parent_id: props.id!,
+    image: image_path
   })
 
   if (errors) {
@@ -81,15 +116,29 @@ async function post_xit(text: string, image: File | null) {
 
   window.location.reload()
 }
+
+const image_url = ref('')
+
+if (xit!.image) {
+  const url = await getUrl({
+    path: xit!.image
+  })
+
+  image_url.value = url.url.toString()
+}
 </script>
 
 <template>
   <main class="flex flex-col h-full">
-    <div ref="post" class="border-b-1 border-gray-500 p-2">
-      <h1 class="font-bold">
-        {{ xit_poster!.username }} posted at {{ new Date(xit!.createdAt!).toLocaleString() }}
-      </h1>
-      <p>{{ xit!.text }}</p>
+    <div ref="post" class="border-b-1 border-gray-500 p-2 flex flex-row">
+      <div class="flex-grow mr-2">
+        <h1 class="font-bold">
+          <a :href="'/profile/' + xit_poster!.user_id">{{ xit_poster!.username }}</a> posted at {{ new
+            Date(xit!.createdAt!).toLocaleString() }}
+        </h1>
+        <p>{{ xit!.text }}</p>
+      </div>
+      <img v-if="xit!.image" class="max-w-1/2 not-lg:max-w-96 flex-none" :src="image_url" />
     </div>
     <div class="p-2 h-16 flex flex-row">
       <h1 class="font-black text-3xl flex-grow">Replies</h1>

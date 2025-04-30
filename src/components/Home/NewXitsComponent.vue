@@ -25,7 +25,7 @@ const first_get = await client.models.Xit.listByParent(
   {
     sortDirection: 'DESC',
     limit: 25,
-    selectionSet: ['id', 'text', 'createdAt', 'user.username'],
+    selectionSet: ['id', 'text', 'createdAt', 'user.username', 'image'],
     filter,
   },
 )
@@ -48,7 +48,7 @@ async function get_more() {
       sortDirection: 'DESC',
       limit: 25,
       nextToken: nextToken.value,
-      selectionSet: ['id', 'text', 'createdAt', 'user.username'],
+      selectionSet: ['id', 'text', 'createdAt', 'user.username', 'image'],
       filter,
     },
   )
